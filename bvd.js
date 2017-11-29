@@ -40,40 +40,121 @@
 
 
 
-var target = document.getElementById('night');
-var gauge = new Gauge(target).setOptions(opts);
-gauge.maxValue = 100;
-gauge.animationSpeed = 55;
-gauge.set(55);
+var night = document.getElementById('night');
+var nightGauge = new Gauge(night).setOptions(opts);
+nightGauge.maxValue = 100;
+nightGauge.animationSpeed = 55;
+nightGauge.set(99);
 
-var target2 = document.getElementById('morning');
-var gauge2 = new Gauge(target2).setOptions(opts);
-gauge2.maxValue = 100;
-gauge2.animationSpeed = 55;
-gauge2.set(80);
+var morning = document.getElementById('morning');
+var morningGauge = new Gauge(morning).setOptions(opts);
+morningGauge.maxValue = 100;
+morningGauge.animationSpeed = 55;
+morningGauge.set(99);
 
-var target3 = document.getElementById('day');
-var gauge3 = new Gauge(target3).setOptions(opts);
-gauge3.maxValue = 100;
-gauge3.animationSpeed = 55;
-gauge3.set(23);
+var day = document.getElementById('day');
+var dayGauge = new Gauge(day).setOptions(opts);
+dayGauge.maxValue = 100;
+dayGauge.animationSpeed = 55;
+dayGauge.set(99);
 
-var target4 = document.getElementById('evening');
-var gauge4 = new Gauge(target4).setOptions(opts);
-gauge4.maxValue = 100;
-gauge4.animationSpeed = 55;
-gauge4.set(40);
-
-
+var evening = document.getElementById('evening');
+var eveningGauge = new Gauge(evening).setOptions(opts);
+eveningGauge.maxValue = 100;
+eveningGauge.animationSpeed = 55;
+eveningGauge.set(99);
 
 
+var datasetContainer = document.getElementById("dataset-place");
 
-var ourRequest = new XMLHttpRequest();
-ourRequest.open('GET', 'http://urbalurba.no/api/3/action/datastore_search?resource_id=b66f9a97-61ac-43b7-8f02-a982ad46b712&q=Friday');
-
-  ourRequest.onload = function() {
-     console.log(ourRequest.responseText);
-    gauge.set(5);
-   
+$(document).ready(function(){
+    var data = {
+      resource_id: 'b66f9a97-61ac-43b7-8f02-a982ad46b712', // the resource id
+      limit: 5, // get 5 results
+    q: 'Friday' // query for 'Friday'
     };
-    
+  
+
+    $.ajax({
+        url: 'http://urbalurba.no/api/3/action/datastore_search',
+      data: data,
+      dataType: 'jsonp',
+      success: function(successData) {
+        console.log('Total results found: ' + successData.result.records.length);
+        console.log(successData.result.records);
+        renderDataset(successData.result.records);
+        updateGauges(successData.result.records)
+      }
+    });
+  
+  });
+
+
+function updateGauges(dataset) {
+  console.log('UpdateGauges:');
+  for (i = 0; i < dataset.length; i++) {
+
+    switch (dataset[i].QuarterOfDay.toLowerCase()) {
+      case "night" :
+          // Do work here
+          nightGauge.set(dataset[i].NeedlePercent);
+          break;
+      case "morning" :
+          // Do work here
+          morningGauge.set(dataset[i].NeedlePercent);
+          break;
+      case "day" :
+          // Do work here
+          dayGauge.set(dataset[i].NeedlePercent);
+          break;
+      case "evening" :
+          // Do work here
+          eveningGauge.set(dataset[i].NeedlePercent);
+          break;
+          
+      default :
+          // Do work here
+          nightGauge.set(100);
+          break;
+    }   
+  }
+}  
+
+
+function renderDataset(dataset) {
+    var htmlString = "";
+    console.log('Received:');
+    console.log(dataset);
+  for (i = 0; i < dataset.length; i++) {
+    htmlString += "<p> WeekDay: " + dataset[i].WeekDay + " QuarterOfDay:" + dataset[i].QuarterOfDay + " NeedlePercent:" + dataset[i].NeedlePercent + " AveragePeriod:" + dataset[i].AveragePeriod +  " </p> ";
+  }
+  console.log(htmlString);
+  datasetContainer.insertAdjacentHTML('beforeend', htmlString);
+}
+
+
+function findDay(dataset) {
+// to figure out what day to get
+switch (new Date().getDay()) {
+  case 0:
+      day = "Sunday";
+      break;
+  case 1:
+      day = "Monday";
+      break;
+  case 2:
+      day = "Tuesday";
+      break;
+  case 3:
+      day = "Wednesday";
+      break;
+  case 4:
+      day = "Thursday";
+      break;
+  case 5:
+      day = "Friday";
+      break;
+  case 6:
+      day = "Saturday";
+}
+}
