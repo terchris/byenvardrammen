@@ -1,5 +1,5 @@
 var datasetContainer = document.getElementById("dataset-place");
-console.log("datasetContainer: "+ datasetContainer);
+
 $(document).ready(function(){
     var data = {
       // resource_id: '346d58fc-b7c1-4c38-bf4d-c9d5fb43ce7b', // the resource id
