@@ -82,7 +82,7 @@ $(document).ready(function(){
       success: function(successData) {
         console.log('Total results found: ' + successData.result.records.length);
         console.log(successData.result.records);
-        renderDataset(successData.result.records);
+        //renderDataset(successData.result.records);
         updateGauges(successData.result.records)
       }
     });

@@ -12,8 +12,7 @@
   
   .demo-card-square > .mdl-card__title {
     color: #fff;
-    background: 
-    url('https://www.shareicon.net/data/48x48/2015/09/17/642376_star_512x512.png') bottom right 15% no-repeat #03a9f4;
+    background: #03a9f4;
   }
   
   .demo-card-square > .mdl-card__accent {
@@ -24,4 +23,16 @@
     padding: 20px;
     background: #fafafa;
     position: relative;
+  }
+
+
+
+  .mdl-card__actions {
+    display: flex;
+    box-sizing:border-box;
+    align-items: center;
+  }
+  .mdl-card__actions > .mdl-button--icon {
+    margin-right: 3px;
+    margin-left: 3px;
   }
