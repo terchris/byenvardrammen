@@ -13,16 +13,16 @@
   staticZones: [{
       strokeStyle: "#F03E3E",
       min: 0,
-      max: 50
+      max: 45
     }, // Red 
     {
       strokeStyle: "#FFDD00",
-      min: 50,
-      max: 70
+      min: 45,
+      max: 65
     }, // Yellow
     {
       strokeStyle: "#30B32D",
-      min: 70,
+      min: 65,
       max: 100
     }, // Green
   ],
